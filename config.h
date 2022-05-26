@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx       = 1;   /* border pixel of windows */
+static const unsigned int borderpx       = 2;   /* border pixel of windows */
 static const unsigned int snap           = 32;  /* snap pixel */
 static const unsigned int gappih         = 5;  /* horiz inner gap between windows */
 static const unsigned int gappiv         = 5;  /* vert inner gap between windows */
@@ -159,7 +159,6 @@ static const char *dmenucmd[] = {
 	"-sf", selfgcolor,
 	NULL
 };
-
 // Custom Aliases
 
 // Terminal
