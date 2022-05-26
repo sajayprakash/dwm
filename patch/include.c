@@ -4,9 +4,11 @@
 
 #include "bar_ltsymbol.c"
 #include "bar_status.c"
+#include "bar_status2d.c"
 #include "bar_statuscolors.c"
 #include "bar_tags.c"
 #include "bar_wintitle.c"
+#include "bar_systray.c"
 
 /* Other patches */
 #include "vanitygaps.c"
