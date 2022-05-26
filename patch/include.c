@@ -11,6 +11,7 @@
 #include "bar_systray.c"
 
 /* Other patches */
+#include "togglefullscreen.c"
 #include "vanitygaps.c"
 #include "warp.c"
 /* Layouts */
