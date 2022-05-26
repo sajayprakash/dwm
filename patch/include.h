@@ -11,6 +11,7 @@
 #include "bar_systray.h"
 
 /* Other patches */
+#include "rotatestack.h"
 #include "togglefullscreen.h"
 #include "vanitygaps.h"
 #include "warp.h"

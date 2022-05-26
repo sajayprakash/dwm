@@ -12,6 +12,8 @@ static const int showbar                 = 1;   /* 0 means no bar */
 static const int topbar                  = 1;   /* 0 means bottom bar */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon               = -1;
+static const int horizpadbar             = 4;   /* horizontal padding for statusbar */
+static const int vertpadbar              = 5;   /* vertical padding for statusbar */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int showsystray             = 1;   /* 0 means no systray */
 
@@ -124,15 +126,12 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
-
-
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
-
 
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -141,8 +140,6 @@ static const Layout layouts[] = {
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
 	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
-
-
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -173,7 +170,7 @@ static const char *flameshot[]  = { "flameshot", "gui", NULL };
 static Key keys[] = {
 	/* modifier                     key            function                argument */
 	{ MODKEY,                       XK_d,          spawn,                  {.v = dmenucmd } },
-	{ MODKEY,             			XK_Return,     spawn,                  {.v = termcmd } },
+	{ MODKEY,                  		XK_Return,     spawn,                  {.v = termcmd } },
 	{ MODKEY,                       XK_b,          togglebar,              {0} },
 	{ MODKEY,                       XK_j,          focusstack,             {.i = +1 } },
 	{ MODKEY,                       XK_k,          focusstack,             {.i = -1 } },
@@ -207,6 +204,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,      setlayout,              {0} },
 	{ MODKEY|ShiftMask,             XK_space,      togglefloating,         {0} },
 	{ MODKEY,                       XK_f,          togglefullscreen,       {0} },
+	{ MODKEY|ShiftMask,             XK_j,          rotatestack,            {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_k,          rotatestack,            {.i = -1 } },
+
 	{ MODKEY,                       XK_0,          view,                   {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,          tag,                    {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,      focusmon,               {.i = -1 } },
@@ -227,7 +227,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_w,          spawn,                  {.v = firefox } },
 	{ NULL,                         XK_Print,      spawn,                  {.v = flameshot } },
 };
-
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
