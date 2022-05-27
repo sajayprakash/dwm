@@ -1,0 +1,12 @@
+# Patches
+- alwayscenter
+- status2d
+- systray
+- rotatestack
+- togglefullscreen
+- vanitygaps
+- warp
+- statusallmons
+- statuscolors
+- statuspadding
+- transparentbordersfix
