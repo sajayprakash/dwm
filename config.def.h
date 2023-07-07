@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
@@ -123,7 +123,7 @@ static const Layout layouts[] = {
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
+#define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -137,20 +137,22 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *browser[]  = { "firefox", NULL };
 
 #include "movestack.c"
 #include "exitdwm.c"
 #include "shiftview.c"
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,            	        XK_y,  	   togglescratch,  {.ui = 0 } },
+	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_w,      spawn,          {.v = browser } },
+	{ MODKEY|ShiftMask,            	XK_Return, togglescratch,  {.ui = 0 } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_m,      incnmaster,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_m,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_Left,   shiftview,      {.i = -1 } },
 	{ MODKEY,                       XK_Right,  shiftview,      {.i = +1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
@@ -160,7 +162,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_Return, zoom,           {0} },
+	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } },
@@ -179,15 +181,20 @@ static const Key keys[] = {
 	{ MODKEY|Mod4Mask|ShiftMask,    XK_0,      defaultgaps,    {0} },
 	{ MODKEY,			XK_s,	   togglesticky,   {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,	                XK_q,      killclient,     {0} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
+	{ MODKEY|ShiftMask,		XK_y,	   setlayout,	   {.v = &layouts[3]} }, /* dwindle */
+	{ MODKEY,			XK_u,	   setlayout,	   {.v = &layouts[4]} }, /* deck */
+	{ MODKEY|ShiftMask,		XK_u,	   setlayout,	   {.v = &layouts[5]} }, /* monocle */
+	{ MODKEY,			XK_i,	   setlayout,	   {.v = &layouts[6]} }, /* centeredmaster */
+	{ MODKEY|ShiftMask,		XK_i,	   setlayout,	   {.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY|ControlMask,		XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
-	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY,                       XK_f,      togglefullscr,  {0} },
+	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
